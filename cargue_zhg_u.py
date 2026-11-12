@@ -11,8 +11,9 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-
-ARCHIVO_CSV = "puerto\\ZHF_9377_RURAL.csv"
+CAPA = "vm_zonahomogeneafisicaurbana"
+MPIO = "pruebas_xtf_sabana_torres"
+ARCHIVO_CSV = f"{CAPA}.csv"
 
 
 def crear_conexion():
@@ -49,7 +50,7 @@ def ejecutar_cargue():
             for fila in df.itertuples(index=False):
 
                 cursor.execute("""
-                    UPDATE "xtf_final_puerto_wilches"."vm_zonahomogeneafisicarural"
+                    UPDATE """ + MPIO + """.""" + CAPA + """
                     SET geometria = ST_GeomFromText(
                         %s, ST_SRID(geometria)
                     )
@@ -78,6 +79,8 @@ def ejecutar_cargue():
                     )
 
         conexion.commit()
+        
+        print(F"COMMIT exitoso. Registros actualizados en la capa {CAPA} del município {MPIO}: {len(df)}")
 
         print(f"COMMIT exitoso. Registros actualizados: {len(df)}")
 

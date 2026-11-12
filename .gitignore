@@ -1,0 +1,6 @@
+*.csv
+/sabana/
+/niu/
+/puerto/
+/venv/
+
